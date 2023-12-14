@@ -2,8 +2,10 @@ const express = require('express');
 const {Router, Request, Response} = require('express');
 const app = express();
 const users = require('./models/user.ts');
+
 app.use(express.json())
-const router = Router();  // <--- Router
+
+const router = express.Router();  // <--- Router
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
