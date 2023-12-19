@@ -16,12 +16,15 @@ userRouter.get('/listar', (req, res) => {
 });
 
 userRouter.post('/add', (req, res) => {
-	const { name, email, password } = req.body;
+	const data = req.body;
 	
 	const newUser = {
-		name,
-		email,
-		password
+	data.name,
+		data.email,
+		data.password,
+		data.avatar,
+		data.whatsapp,
+		data.bio
 	};
 	controller.add(req,res, newUser).then((data) => {
 		res.json({ data, status: 'success'});
