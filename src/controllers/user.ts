@@ -4,8 +4,8 @@ const db = require('../../db/server.ts'); // importamos la conexion a la base de
 
 class UserController {
 
-	function listar(req, res) {
-		db.query('SELECT * FROM user', (err, rows) => {
+	listar(req, res) {
+		db.query('SELECT * FROM users', (err, rows, fields) => {
 			if (!err) {
 				res.json({data: rows, status: 'success'});
 			} else {
@@ -14,9 +14,9 @@ class UserController {
 		});
 	}
 
-	function listarById(req, res) {
+	listarById(req, res) {
 		const { id } = req.params;
-		db.query('SELECT * FROM user WHERE id = ?', [id], (err, rows) => {
+		db.query('SELECT * FROM users WHERE id = ?', [id], (err, rows) => {
 			if (!err) {
 				res.json({data: rows, status: 'success'});
 			} else {
@@ -25,8 +25,8 @@ class UserController {
 		});
 	}
 
-	function add(req, res) {
-		db.query('INSERT INTO user SET ?', [req.body], (err, rows) => {
+	add(req, res) {
+		db.query('INSERT INTO users SET ?', [req.body], (err, rows) => {
 			if (!err) {
 				res.json({data: rows, status: 'success'});
 			} else {
@@ -35,6 +35,15 @@ class UserController {
 		});
 	}
 
+	delete(req, res, id) {
+		db.query('DELETE FROM users WHERE id = ?', [id], (err, rows) => {
+			if (!err) {
+				res.json({data: rows, status: 'success'});
+			} else {
+				console.log(err);
+			}
+		});
+	}
 }
 
 module.exports = UserController;

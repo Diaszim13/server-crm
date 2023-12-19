@@ -2,36 +2,50 @@ const express = require('express');
 
 const db = require('../../db/server.ts');
 
-const router = express.Router();
-const userController = require('../../controllers/userController.ts');
+const userRouter = express.Router();
+const userController = require('../controllers/user.ts');
 
+const controller = new userController();
 
-router.post('/add', (req, res) => {
-	const {name, email, password} = req.body;
+userRouter.get('/listar', (req, res) => {
+	controller.listar(req, res).then((data) => {
+		res.json({ data, status: 'success'});
+	}).catch((err) => {
+		res.json({ err, status: 'error' });
+	});
+});
+
+userRouter.post('/add', (req, res) => {
+	const { name, email, password } = req.body;
+	
 	const newUser = {
 		name,
 		email,
 		password
 	};
-	UserController.add(req,res, newUser).then((data) => {
-		res.json({data: newUser, status: 'success'});
+	controller.add(req,res, newUser).then((data) => {
+		res.json({ data, status: 'success'});
 	}).catch((err) => {
-		console.log(err);
+		res.json({ err, status: 'error' });
 	});
 });
 
-router.get('/listar/:id', (req, res) => {
+userRouter.get('/listar/:id', (req, res) => {
 	const { id } = req.params;
-	db.query('SELECT * FROM user WHERE id = ?', [id], (err, rows) => {
-		if (!err) {
-	
-			res.json({data: rows, status: 'success'});
-		} else {
-			console.log(err);
-		}
+	controller.listarById(req, res, id).then((data) => {
+		res.json({ data, status: 'success'});
+	}).catch((err) => {
+		res.json({ err, status: 'error' });
 	});
 });
 
-router.delete('/delete/:id', (req, res) => {
-)};
-	module.exports = router;
+userRouter.delete('/delete/:id', (req, res) => {
+	const { id } = req.params;
+	controller.delete(req, res, id).then((data) => {
+		res.json({ data, status: 'success'});
+	}).catch((err) => {
+		res.json({ err, status: 'error' });
+	});
+});
+
+module.exports = userRouter;
