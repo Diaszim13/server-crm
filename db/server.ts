@@ -3,9 +3,9 @@ const mysql = require('mysql');
 
 const coon = mysql.createConnection({
 	host: 'localhost',
-	user: 'root',
+	user: 'matheus',
 	password: '',
-	database: 'test'
+	database: 'server'
 });
 
 coon.connect();

@@ -1,14 +1,20 @@
 const express = require('express');
-
+const fetch = require('fetch')
 const db = require('../../db/server.ts');
 
 const userRouter = express.Router();
 const userController = require('../controllers/user.ts');
 
 const controller = new userController();
-
-userRouter.get('/listar', (req, res) => {
+##aq vai ter q usaqr a api para buscar os dados
+userRouter.get('/listar', async (req, res) => {
 	controller.listar(req, res).then((data) => {
+		const data = await  fetch.get('link da api', () => {
+			method: 'POST',
+			//Aq ver oq vai precisar
+		}).then((res) => res.json());
+
+		
 		res.json({ data, status: 'success'});
 	}).catch((err) => {
 		res.json({ err, status: 'error' });
